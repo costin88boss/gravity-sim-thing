@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <cmath>
 #include "raylib.h"
 
@@ -21,6 +22,7 @@ public:
     float SqrMagnitude();
     float Magnitude();
     Vector2 ToRaylibVector();
+    void Print();
 
     //---------- Operation Overloads ----------
     // Unary Arithmetic

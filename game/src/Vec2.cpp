@@ -35,6 +35,13 @@ float Vec2::Magnitude()
 Vector2 Vec2::ToRaylibVector()
 { return { x, y }; }
 
+void Vec2::Print()
+{
+    std::cout << "(x: " << x <<
+                 " y: " << y <<
+                 ")";
+}
+
 //---------- Operation Overloads ----------
 // Unary Arithmetic
 Vec2 Vec2::operator+()
