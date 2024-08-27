@@ -116,6 +116,8 @@ project "raylib"
     location (raylib_dir)
     language "C"
     targetdir "bin/%{cfg.buildcfg}"
+	
+	toolset "gcc" 
 
     filter "action:vs*"
         defines{"_WINSOCK_DEPRECATED_NO_WARNINGS", "_CRT_SECURE_NO_WARNINGS"}

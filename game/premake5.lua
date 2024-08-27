@@ -21,6 +21,9 @@ project (workspaceName)
     kind "ConsoleApp"
     location "./"
     targetdir "../bin/%{cfg.buildcfg}"
+	
+	toolset "gcc" 
+	language "C++"
 
     filter "configurations:Release"
         kind "WindowedApp"
