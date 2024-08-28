@@ -12,6 +12,8 @@ Vec2 Vec2::Right()
 Vec2 Vec2::Up()
 { return { 0.0f, 1.0f }; }
 
+float Vec2::Distance( Vec2& v1, Vec2& v2 )
+{ return ( v1 - v2 ).Magnitude(); }
 
 Vec2::Vec2( float x, float y )
     :
@@ -20,8 +22,6 @@ Vec2::Vec2( float x, float y )
 {}
 
 
-float Vec2::Distance( Vec2& v1, Vec2& v2 )
-{ return ( v1 - v2 ).Magnitude(); }
 
 Vec2 Vec2::Normalized()
 { return { x / Magnitude(), y / Magnitude() }; }

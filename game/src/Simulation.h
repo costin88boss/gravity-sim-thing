@@ -17,7 +17,9 @@ public:
     void SetBGColor( Color color );
 
     void AddBody( Body& body );
-    void ListBodies();
+    void AddBody( const std::string& name, Vec2 position, Vec2 velocity, float mass );
+    void ListBodies() const;
+    Body& GetBodyByName( const std::string& name ) const;
 
     void Tick();
     void Update();
@@ -26,10 +28,9 @@ private:
     std::string m_title;
     size_t m_windowWidth, m_windowHeight;
     float m_timeStep;
-    Color m_bgColor;
+    Color m_bgColor = { 0, 0, 0, 255 };
 
-    std::vector<Body*> m_bodies;
+    std::vector<Body> m_bodies;
 
     bool CheckIfNameExists( const std::string& name );
-    int GetBodyIndex( Body& body );
 };

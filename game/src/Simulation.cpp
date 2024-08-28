@@ -41,19 +41,44 @@ void Simulation::AddBody( Body& body )
     }
     else
     {
-        m_bodies.push_back( &body );
+        m_bodies.push_back( body );
     }
 }
 
-void Simulation::ListBodies()
+void Simulation::AddBody( const std::string& name, Vec2 position, Vec2 velocity, float mass )
+{
+    if ( CheckIfNameExists( name ) )
+    {
+        throw std::runtime_error("Error adding body: A body with this name already exists!");
+    }
+    else
+    {
+        Body body( name, position, velocity, mass );
+        m_bodies.push_back( body );
+    }
+}
+
+
+void Simulation::ListBodies() const
 {
     for ( auto body : m_bodies )
     {
-        std::cout <<  body->name.c_str() << " at pos: ";
-        body->position.Print();
+        std::cout <<  body.name.c_str() << " at pos: ";
+        body.position.Print();
         std::cout << " \n";
     }
     std::cout << "------\n";
+}
+
+Body& Simulation::GetBodyByName( const std::string& name ) const
+{
+    for ( int i = 0; i < m_bodies.size(); i++ )
+    {
+        if ( m_bodies[i].name != name ) continue;
+        return ( Body& ) m_bodies[i];
+    }
+    
+    throw std::runtime_error("Error finding body: No body exists with this name!");
 }
 
 void Simulation::Tick()
@@ -80,7 +105,7 @@ bool Simulation::CheckIfNameExists( const std::string& name )
 {
     for ( auto other : m_bodies )
     {
-        if ( other->name != name ) continue;
+        if ( other.name != name ) continue;
         return true;
     }
 
