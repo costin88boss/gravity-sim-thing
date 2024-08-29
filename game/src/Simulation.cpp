@@ -72,10 +72,10 @@ void Simulation::ListBodies() const
 
 Body& Simulation::GetBodyByName( const std::string& name ) const
 {
-    for ( int i = 0; i < m_bodies.size(); i++ )
+    for ( auto& body : m_bodies )
     {
-        if ( m_bodies[i].name != name ) continue;
-        return ( Body& ) m_bodies[i];
+        if ( body.name != name ) continue;
+        return ( Body& ) body;
     }
     
     throw std::runtime_error("Error finding body: No body exists with this name!");
@@ -93,10 +93,10 @@ void Simulation::Tick()
 
 void Simulation::Update()
 {
-    for ( int i = 0; i < m_bodies.size(); i++ )
+    for ( auto& body : m_bodies )
     {
-        m_bodies[i].UpdateVelocity( m_timeStep, m_bodies );
-        m_bodies[i].UpdatePosition( m_timeStep );
+        body.UpdateVelocity( m_timeStep, m_bodies );
+        body.UpdatePosition( m_timeStep );
     }
 }
 
