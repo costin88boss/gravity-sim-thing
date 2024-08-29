@@ -10,14 +10,13 @@
 class Simulation
 {
 public:
-    Simulation( const std::string& title, size_t windowWidth, size_t windowHeight, float timeStep );
+    Simulation( const std::string title, const size_t windowWidth, const size_t windowHeight, const float timeStep );
     ~Simulation();
 
     bool IsRunning() const;
-    void SetBGColor( Color color );
+    void SetBGColor( const Color color );
 
-    void AddBody( Body& body );
-    void AddBody( const std::string& name, Vec2 position, Vec2 velocity, float mass );
+    void AddBody( const std::string name, Vec2 position, Vec2 velocity, float mass );
     void ListBodies() const;
     Body& GetBodyByName( const std::string& name ) const;
 

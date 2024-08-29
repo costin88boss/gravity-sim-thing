@@ -14,14 +14,13 @@ public:
     Vec2 velocity;
     float mass;
 
-    Body( const std::string name, Vec2 position, Vec2 velocity, float mass );
-    constexpr Body& operator=( const Body& ) = default;
+    Body( const std::string name, const Vec2 position, const Vec2 velocity, const float mass );
 
-    void Move( Vec2 displacement );
-    void AddVelocity( Vec2 velocityDelta );
+    void Move( const Vec2 displacement );
+    void AddVelocity( const Vec2 velocityDelta );
     
-    void UpdateVelocity( float timeDeltaSeconds, const std::vector<Body>& bodies );
-    void UpdatePosition( float timeDeltaSeconds );
+    void UpdateVelocity( const float timeDeltaSeconds, const std::vector<Body>& bodies );
+    void UpdatePosition( const float timeDeltaSeconds );
 
     // Operator Overloads
     bool operator == ( const Body& rhs );

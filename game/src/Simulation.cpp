@@ -1,6 +1,6 @@
 #include "Simulation.h"
 
-Simulation::Simulation( const std::string& title, size_t windowWidth, size_t windowHeight, float timeStep )
+Simulation::Simulation( const std::string title, const size_t windowWidth, const size_t windowHeight, const float timeStep )
     :
     m_title{ title },
     m_windowWidth( windowWidth ),
@@ -28,24 +28,12 @@ bool Simulation::IsRunning() const
     return !WindowShouldClose();
 }
 
-void Simulation::SetBGColor( Color color )
+void Simulation::SetBGColor( const Color color )
 {
     m_bgColor = color;
 }
 
-void Simulation::AddBody( Body& body )
-{
-    if ( CheckIfNameExists( body.name ) )
-    {
-        throw std::runtime_error("Error adding body: A body with this name already exists!");
-    }
-    else
-    {
-        m_bodies.push_back( body );
-    }
-}
-
-void Simulation::AddBody( const std::string& name, Vec2 position, Vec2 velocity, float mass )
+void Simulation::AddBody( const std::string name, Vec2 position, Vec2 velocity, float mass )
 {
     if ( CheckIfNameExists( name ) )
     {

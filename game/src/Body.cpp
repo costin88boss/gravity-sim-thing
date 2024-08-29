@@ -1,6 +1,6 @@
 #include "Body.h"
 
-Body::Body( const std::string name, Vec2 position, Vec2 velocity, float mass )
+Body::Body( const std::string name, const Vec2 position, const Vec2 velocity, const float mass )
     :
     name( name ),
     position( position ),
@@ -8,28 +8,17 @@ Body::Body( const std::string name, Vec2 position, Vec2 velocity, float mass )
     mass( mass )
 {}
 
-void Body::Move( Vec2 displacement )
+void Body::Move( const Vec2 displacement )
 {
     position += displacement;
 }
 
-void Body::AddVelocity( Vec2 velocityDelta )
+void Body::AddVelocity( const Vec2 velocityDelta )
 {
     velocity += velocityDelta;
 }
-// Operator Overloads
-bool Body::operator == ( const Body& rhs )
-{
-    return ( name     == rhs.name     && position == rhs.position &&
-             velocity == rhs.velocity && mass     == rhs.mass );
-}
-bool Body::operator != ( const Body& rhs )
-{
-    return !( name     == rhs.name     && position == rhs.position &&
-              velocity == rhs.velocity && mass     == rhs.mass );
-}
 
-void Body::UpdateVelocity( float timeDeltaSeconds, const std::vector<Body>& bodies )
+void Body::UpdateVelocity( const float timeDeltaSeconds, const std::vector<Body>& bodies )
 {
     Vec2 force{ 0, 0 };
     for ( Body body : bodies )
@@ -47,8 +36,20 @@ void Body::UpdateVelocity( float timeDeltaSeconds, const std::vector<Body>& bodi
     AddVelocity( velocityDelta );
 }
 
-void Body::UpdatePosition( float timeDeltaSeconds )
+void Body::UpdatePosition( const float timeDeltaSeconds )
 {
     // x = vt
     Move( velocity * timeDeltaSeconds );
+}
+
+// Operator Overloads
+bool Body::operator == ( const Body& rhs )
+{
+    return ( name     == rhs.name     && position == rhs.position &&
+             velocity == rhs.velocity && mass     == rhs.mass );
+}
+bool Body::operator != ( const Body& rhs )
+{
+    return !( name     == rhs.name     && position == rhs.position &&
+              velocity == rhs.velocity && mass     == rhs.mass );
 }
