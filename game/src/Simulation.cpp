@@ -93,7 +93,11 @@ void Simulation::Tick()
 
 void Simulation::Update()
 {
-
+    for ( int i = 0; i < m_bodies.size(); i++ )
+    {
+        m_bodies[i].UpdateVelocity( m_timeStep, m_bodies );
+        m_bodies[i].UpdatePosition( m_timeStep );
+    }
 }
 
 void Simulation::Draw()

@@ -13,9 +13,9 @@ void Body::Move( Vec2 displacement )
     position += displacement;
 }
 
-void Body::AddVelocity( Vec2 velocity )
+void Body::AddVelocity( Vec2 velocityDelta )
 {
-    velocity += velocity;
+    velocity += velocityDelta;
 }
 // Operator Overloads
 bool Body::operator == ( const Body& rhs )
@@ -29,13 +29,26 @@ bool Body::operator != ( const Body& rhs )
               velocity == rhs.velocity && mass     == rhs.mass );
 }
 
-// TODO: Update Body Based on Physics
-//void Body::UpdateVelocity( float timeDeltaSeconds )
-//{
-//
-//}
-//
-//void Body::UpdatePosition( float timeDeltaSeconds )
-//{
-//    
-//}
+void Body::UpdateVelocity( float timeDeltaSeconds, const std::vector<Body>& bodies )
+{
+    Vec2 force{ 0, 0 };
+    for ( Body body : bodies )
+    {
+        if ( body == *this ) continue;
+        Vec2 dist = body.position - position;
+        force += Physics::GetGravForce( mass, body.mass, dist );
+    }
+    // Newton's Second Law of Motion\
+    // F = ma ==> a = F / m
+    Vec2 accelaration = force / mass;
+    // v = at
+    Vec2 velocityDelta = accelaration * timeDeltaSeconds;
+
+    AddVelocity( velocityDelta );
+}
+
+void Body::UpdatePosition( float timeDeltaSeconds )
+{
+    // x = vt
+    Move( velocity * timeDeltaSeconds );
+}
