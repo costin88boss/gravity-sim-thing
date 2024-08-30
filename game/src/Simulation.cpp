@@ -1,16 +1,15 @@
 #include "Simulation.h"
 
-Simulation::Simulation( const std::string title, const size_t windowWidth, const size_t windowHeight, const float timeStep )
+Simulation::Simulation( const Window window, const float timeStep )
     :
-    m_title{ title },
-    m_windowWidth( windowWidth ),
-    m_windowHeight( windowHeight ),
+    m_window( window ),
     m_timeStep( timeStep )
 {
     if ( GetWindowHandle() )
         throw std::runtime_error("Error initializing simulation: Window already initialized!");
 
-    InitWindow( m_windowWidth, m_windowHeight, m_title.c_str() );
+    SetConfigFlags( FLAG_VSYNC_HINT );
+    InitWindow( m_window.width, m_window.height, m_window.title.c_str() );
     InitAudioDevice();
 }
 
@@ -33,15 +32,14 @@ void Simulation::SetBGColor( const Color color )
     m_bgColor = color;
 }
 
-void Simulation::AddBody( const std::string name, Vec2 position, Vec2 velocity, float mass )
+void Simulation::AddBody( const Body& body )
 {
-    if ( CheckIfNameExists( name ) )
+    if ( CheckIfNameExists( body.name ) )
     {
         throw std::runtime_error("Error adding body: A body with this name already exists!");
     }
     else
     {
-        Body body( name, position, velocity, mass );
         m_bodies.push_back( body );
     }
 }
@@ -91,6 +89,7 @@ void Simulation::Update()
 void Simulation::Draw()
 {
     ClearBackground( m_bgColor );
+    DrawFPS( 0.0f, 0.0f );
 }
 
 bool Simulation::CheckIfNameExists( const std::string& name )
