@@ -16,7 +16,7 @@ struct Window
 class Simulation
 {
 public:
-    Simulation( const Window window, const float timeStep );
+    Simulation( const Window window, const float timeStep, float timeSpeed );
     ~Simulation();
 
     bool IsRunning() const;
@@ -32,6 +32,7 @@ public:
 private:
     Window m_window;
     float m_timeStep;
+    float m_timeSpeed;
     Color m_bgColor = { 0, 0, 0, 255 };
 
     std::vector<Body> m_bodies;

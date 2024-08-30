@@ -5,6 +5,7 @@
 #include "raylib.h"
 #include "Vec2.h"
 #include "Physics.h"
+#include "WorldScreen.h"
 
 class Body
 {
@@ -21,6 +22,8 @@ public:
     
     void UpdateVelocity( const float timeDeltaSeconds, const std::vector<Body>& bodies );
     void UpdatePosition( const float timeDeltaSeconds );
+
+    void Draw();
 
     // Operator Overloads
     bool operator == ( const Body& rhs );

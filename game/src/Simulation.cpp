@@ -1,14 +1,14 @@
 #include "Simulation.h"
 
-Simulation::Simulation( const Window window, const float timeStep )
+Simulation::Simulation( const Window window, const float timeStep, float timeSpeed )
     :
     m_window( window ),
-    m_timeStep( timeStep )
+    m_timeStep( timeStep ),
+    m_timeSpeed( timeSpeed )
 {
     if ( GetWindowHandle() )
         throw std::runtime_error("Error initializing simulation: Window already initialized!");
 
-    SetConfigFlags( FLAG_VSYNC_HINT );
     InitWindow( m_window.width, m_window.height, m_window.title.c_str() );
     InitAudioDevice();
 }
@@ -69,7 +69,14 @@ Body& Simulation::GetBodyByName( const std::string& name ) const
 
 void Simulation::Tick()
 {
-    Update();
+    static float accumulator = 0.0f;
+    accumulator += GetFrameTime() * m_timeSpeed;
+
+    while ( accumulator >= m_timeStep )
+    {
+        Update();
+        accumulator -= m_timeStep;
+    }
 
     BeginDrawing();
     Draw();
@@ -90,6 +97,11 @@ void Simulation::Draw()
 {
     ClearBackground( m_bgColor );
     DrawFPS( 0.0f, 0.0f );
+
+    for ( auto& body : m_bodies )
+    {
+        body.Draw();
+    }
 }
 
 bool Simulation::CheckIfNameExists( const std::string& name )
