@@ -1,7 +1,5 @@
 #include "Simulation.h"
 
-int _debugFPS;
-
 Simulation::Simulation( const Window window, const float timeStep, float timeSpeed )
     :
     m_window( window ),
@@ -14,8 +12,8 @@ Simulation::Simulation( const Window window, const float timeStep, float timeSpe
     InitWindow( m_window.width, m_window.height, m_window.title.c_str() );
     InitAudioDevice();
 
-    _debugFPS = GetMonitorRefreshRate(GetCurrentMonitor());
-    SetTargetFPS(_debugFPS);
+    m_targetFPS = GetMonitorRefreshRate(GetCurrentMonitor());
+    SetTargetFPS(m_targetFPS);
 }
 
 Simulation::~Simulation()
@@ -83,10 +81,11 @@ void Simulation::Tick()
         accumulator -= m_timeStep;
     }
 
+    // TO-DO some "Input handling manager"
     if (IsKeyPressed(KEY_HOME)) {
         if (IsWindowState(FLAG_VSYNC_HINT)) {
             ClearWindowState(FLAG_VSYNC_HINT);
-            SetTargetFPS(_debugFPS);
+            SetTargetFPS(m_targetFPS);
         }
         else {
             SetWindowState(FLAG_VSYNC_HINT);
@@ -94,18 +93,18 @@ void Simulation::Tick()
         }
     }
     if (IsKeyPressed(KEY_DELETE)) {
-        _debugFPS = -1;
+        m_targetFPS = -1;
         SetTargetFPS(0);
     }
     if (IsKeyPressed(KEY_UP) || IsKeyPressedRepeat(KEY_UP)) {
-        if(_debugFPS == -1) _debugFPS = GetMonitorRefreshRate(GetCurrentMonitor());
+        if (m_targetFPS == -1) m_targetFPS = GetMonitorRefreshRate(GetCurrentMonitor());
         ClearWindowState(FLAG_VSYNC_HINT);
-        SetTargetFPS(++_debugFPS);
+        SetTargetFPS(++m_targetFPS);
     }
     if (IsKeyPressed(KEY_DOWN) || IsKeyPressedRepeat(KEY_DOWN)) {
-        if (_debugFPS == -1) _debugFPS = GetMonitorRefreshRate(GetCurrentMonitor());
+        if (m_targetFPS == -1) m_targetFPS = GetMonitorRefreshRate(GetCurrentMonitor());
         ClearWindowState(FLAG_VSYNC_HINT);
-        SetTargetFPS(--_debugFPS);
+        SetTargetFPS(--m_targetFPS);
     }
 
     BeginDrawing();
