@@ -19,6 +19,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Physics.h" />
+    <ClInclude Include="src\WorldScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Body.cpp">
@@ -34,5 +35,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics.cpp" />
+    <ClCompile Include="src\WorldScreen.cpp" />
   </ItemGroup>
 </Project>

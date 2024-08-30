@@ -268,6 +268,7 @@
     <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\Simulation.h" />
     <ClInclude Include="src\Vec2.h" />
+    <ClInclude Include="src\WorldScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Body.cpp" />
@@ -275,6 +276,7 @@
     <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Simulation.cpp" />
     <ClCompile Include="src\Vec2.cpp" />
+    <ClCompile Include="src\WorldScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\raylib-master\raylib.vcxproj">
