@@ -42,6 +42,11 @@ void Body::UpdatePosition( const float timeDeltaSeconds )
     Move( velocity * timeDeltaSeconds );
 }
 
+void Body::Draw()
+{
+    DrawCircleV( WorldToScreenPoint( position ).ToRaylibVector(), 25.0f, WHITE );
+}
+
 // Operator Overloads
 bool Body::operator == ( const Body& rhs )
 {

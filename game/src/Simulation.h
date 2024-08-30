@@ -7,16 +7,22 @@
 #include <stddef.h>
 #include "Body.h"
 
+struct Window
+{
+    const std::string title;
+    const size_t width, height;
+};
+
 class Simulation
 {
 public:
-    Simulation( const std::string title, const size_t windowWidth, const size_t windowHeight, const float timeStep );
+    Simulation( const Window window, const float timeStep, float timeSpeed );
     ~Simulation();
 
     bool IsRunning() const;
     void SetBGColor( const Color color );
 
-    void AddBody( const std::string name, Vec2 position, Vec2 velocity, float mass );
+    void AddBody( const Body& body );
     void ListBodies() const;
     Body& GetBodyByName( const std::string& name ) const;
 
@@ -24,9 +30,9 @@ public:
     void Update();
     void Draw();
 private:
-    std::string m_title;
-    size_t m_windowWidth, m_windowHeight;
+    Window m_window;
     float m_timeStep;
+    float m_timeSpeed;
     Color m_bgColor = { 0, 0, 0, 255 };
 
     std::vector<Body> m_bodies;
