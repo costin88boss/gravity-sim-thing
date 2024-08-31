@@ -6,21 +6,18 @@ Simulation::Simulation( const Window window, const float timeStep, float timeSpe
     m_timeStep( timeStep ),
     m_timeSpeed( timeSpeed )
 {
-    if ( GetWindowHandle() )
-        throw std::runtime_error("Error initializing simulation: Window already initialized!");
-
+    // Window already initialized
+    assert( !GetWindowHandle() );
     InitWindow( m_window.width, m_window.height, m_window.title.c_str() );
     InitAudioDevice();
 
-    m_targetFPS = GetMonitorRefreshRate(GetCurrentMonitor());
-    SetTargetFPS(m_targetFPS);
+    SetTargetFPS(GetMonitorRefreshRate(GetCurrentMonitor()));
 }
 
 Simulation::~Simulation()
 {
-    if ( !GetWindowHandle() )
-        throw std::runtime_error("Error closing simulation: Window already closed!");
-    
+    // Window already closed
+    assert( GetWindowHandle() );
     CloseAudioDevice();
     CloseWindow();
 }
@@ -37,14 +34,9 @@ void Simulation::SetBGColor( const Color color )
 
 void Simulation::AddBody( const Body& body )
 {
-    if ( CheckIfNameExists( body.name ) )
-    {
-        throw std::runtime_error("Error adding body: A body with this name already exists!");
-    }
-    else
-    {
-        m_bodies.push_back( body );
-    }
+    // Name already exists
+    assert( !CheckIfNameExists( body.name ));
+    m_bodies.push_back( body );
 }
 
 
@@ -81,37 +73,10 @@ void Simulation::Tick()
         accumulator -= m_timeStep;
     }
 
-    // TO-DO some "Input handling manager"
-    if (IsKeyPressed(KEY_HOME)) {
-        if (IsWindowState(FLAG_VSYNC_HINT)) {
-            ClearWindowState(FLAG_VSYNC_HINT);
-            SetTargetFPS(m_targetFPS);
-        }
-        else {
-            SetWindowState(FLAG_VSYNC_HINT);
-            SetTargetFPS(0);
-        }
-    }
-    if (IsKeyPressed(KEY_DELETE)) {
-        m_targetFPS = -1;
-        SetTargetFPS(0);
-    }
-    if (IsKeyPressed(KEY_UP) || IsKeyPressedRepeat(KEY_UP)) {
-        if (m_targetFPS == -1) m_targetFPS = GetMonitorRefreshRate(GetCurrentMonitor());
-        ClearWindowState(FLAG_VSYNC_HINT);
-        SetTargetFPS(++m_targetFPS);
-    }
-    if (IsKeyPressed(KEY_DOWN) || IsKeyPressedRepeat(KEY_DOWN)) {
-        if (m_targetFPS == -1) m_targetFPS = GetMonitorRefreshRate(GetCurrentMonitor());
-        ClearWindowState(FLAG_VSYNC_HINT);
-        SetTargetFPS(--m_targetFPS);
-    }
-
     BeginDrawing();
     Draw();
+    Debug::HandleTargetFPS();
     EndDrawing();
-
-
 }
 
 
@@ -127,18 +92,7 @@ void Simulation::Update()
 void Simulation::Draw()
 {
     ClearBackground(m_bgColor);
-
-
     DrawFPS(0.0f, 0.0f);
-    if (IsWindowState(FLAG_VSYNC_HINT)) {
-        DrawText("VSync", 0, 21, 20, WHITE);
-    }
-    else if (_debugFPS == -1) {
-        DrawText("Unlimited", 0, 21, 20, WHITE);
-    }
-    else {
-        DrawText(TextFormat("%2i Target", _debugFPS), 0, 21, 20, WHITE);
-    }
 
     for ( auto& body : m_bodies )
     {
@@ -148,7 +102,7 @@ void Simulation::Draw()
 
 bool Simulation::CheckIfNameExists( const std::string& name )
 {
-    for ( auto other : m_bodies )
+    for ( auto& other : m_bodies )
     {
         if ( other.name != name ) continue;
         return true;

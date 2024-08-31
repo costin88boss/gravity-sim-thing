@@ -14,8 +14,10 @@ public:
     Vec2 position;
     Vec2 velocity;
     float mass;
+    float radius;
+    Color color;
 
-    Body( const std::string name, const Vec2 position, const Vec2 velocity, const float mass );
+    Body( const std::string name, const Vec2 position, const Vec2 velocity, const float mass, float radius, Color color );
 
     void Move( const Vec2 displacement );
     void AddVelocity( const Vec2 velocityDelta );

@@ -1,11 +1,13 @@
 #include "Body.h"
 
-Body::Body( const std::string name, const Vec2 position, const Vec2 velocity, const float mass )
+Body::Body( const std::string name, const Vec2 position, const Vec2 velocity, const float mass, float radius, Color color )
     :
     name( name ),
     position( position ),
     velocity( velocity ),
-    mass( mass )
+    mass( mass ),
+    radius( radius ),
+    color( color )
 {}
 
 void Body::Move( const Vec2 displacement )
@@ -44,7 +46,7 @@ void Body::UpdatePosition( const float timeDeltaSeconds )
 
 void Body::Draw()
 {
-    DrawCircleV( WorldToScreenPoint( position ).ToRaylibVector(), 25.0f, WHITE );
+    DrawCircleV( WorldToScreenPoint( position ).ToRaylibVector(), radius, color );
 }
 
 // Operator Overloads

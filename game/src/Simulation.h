@@ -3,9 +3,11 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
+#include <cassert>
 #include <iostream>
 #include <stddef.h>
 #include "Body.h"
+#include "Debug.h"
 
 struct Window
 {
@@ -34,7 +36,6 @@ private:
     float m_timeStep;
     float m_timeSpeed;
     Color m_bgColor = { 0, 0, 0, 255 };
-    int m_targetFPS;
 
     std::vector<Body> m_bodies;
 
